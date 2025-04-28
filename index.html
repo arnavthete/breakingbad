@@ -2,22 +2,165 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Streaming Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BB</title>
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      height: 100%;
-      overflow: hidden;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
-    iframe {
+
+    body, html {
+      height: 100%;
+      background: #111;
+      color: #fff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .screen {
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease, transform 1s ease;
+      transform: scale(0.9);
+      position: absolute;
+      width: 90%;
+    }
+
+    .screen.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background: #ff4757;
+      border: none;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #ff6b81;
+    }
+
+    img.fullscreen-image {
+      max-width: 100%;
+      max-height: 100%;
       width: 100%;
       height: 100%;
-      border: none;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .countdown {
+      position: absolute;
+      bottom: 50px;
+      font-size: 2rem;
+      animation: fadeIn 1s ease;
+    }
+
+    .emoji {
+      font-size: 5rem;
+      display: none;
+      animation: popIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <iframe src="https://123moviefreesite.com/show/breaking-bad-FqWAGN-3167e3c9d4/" allowfullscreen></iframe>
+
+  <div id="screen1" class="screen active">
+    <h1>HELLO NIGGA 🥰</h1>
+    <button onclick="nextScreen()">Next</button>
+  </div>
+
+  <div id="screen2" class="screen">
+    <h2>Before you start,<br>I've got something to show you...</h2>
+    <p style="margin-top:10px;">It is very special.<br>Are you ready?</p>
+    <h1 id="prepCountdown" style="margin-top: 20px; font-size: 3rem;"></h1>
+  </div>
+
+  <img src="image.png" id="mainImage" class="fullscreen-image" alt="Special Image">
+  <div id="imageCountdown" class="countdown"></div>
+
+  <div id="emoji" class="emoji">🤭</div>
+
+  <script>
+    let currentScreen = 1;
+
+    function nextScreen() {
+      document.getElementById('screen1').classList.remove('active');
+      document.getElementById('screen2').classList.add('active');
+      startPrepCountdown();
+    }
+
+    function startPrepCountdown() {
+      let count = 3;
+      const countdownEl = document.getElementById('prepCountdown');
+
+      const interval = setInterval(() => {
+        countdownEl.textContent = count;
+        count--;
+        if (count < 0) {
+          clearInterval(interval);
+          showImage();
+        }
+      }, 1000);
+    }
+
+    function showImage() {
+      document.getElementById('screen2').classList.remove('active');
+      const img = document.getElementById('mainImage');
+      img.style.opacity = 1;
+      startImageCountdown();
+    }
+
+    function startImageCountdown() {
+      let count = 3;
+      const countdownEl = document.getElementById('imageCountdown');
+
+      const interval = setInterval(() => {
+        countdownEl.textContent = count;
+        count--;
+        if (count < 0) {
+          clearInterval(interval);
+          hideImageShowEmoji();
+        }
+      }, 1000);
+    }
+
+    function hideImageShowEmoji() {
+      const img = document.getElementById('mainImage');
+      img.style.opacity = 0;
+      document.getElementById('imageCountdown').style.display = 'none';
+      const emoji = document.getElementById('emoji');
+      emoji.style.display = 'block';
+    }
+  </script>
+
 </body>
 </html>
