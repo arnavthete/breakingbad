@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Breaking Bad</title>
+  <title>Welcome nigga</title>
   <style>
     * {
       margin: 0;
@@ -11,116 +11,64 @@
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
-    body, html {
+    html, body {
       height: 100%;
       background: #111;
       color: #fff;
-      overflow: hidden;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
+      overflow: hidden;
     }
     .screen {
       text-align: center;
       opacity: 0;
-      transition: opacity 1s ease, transform 1s ease;
       transform: scale(0.9);
-      position: absolute;
+      transition: all 0.8s ease;
       width: 90%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      z-index: 10;
     }
     .screen.active {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    .screen h1, .screen h2, .screen p {
-      margin-bottom: 20px;
+      transform: scale(1);
     }
     button {
-      margin-top: 20px;
-      padding: 12px 28px;
-      font-size: 1.4rem;
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 1.3rem;
       background: #ff4757;
+      color: white;
       border: none;
-      color: #fff;
-      border-radius: 12px;
+      border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s;
     }
     button:hover {
       background: #ff6b81;
     }
-    img.fullscreen-image {
-      max-width: 100%;
-      max-height: 100%;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 1s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .countdown {
-      position: absolute;
-      bottom: 50px;
-      font-size: 2.5rem;
-      animation: fadeIn 1s ease;
-      z-index: 5;
-    }
-    .emoji {
-      font-size: 5rem;
-      display: none;
-      animation: popIn 1s ease forwards;
-      z-index: 10;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes popIn {
-      0% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    h1, h2, p {
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- First Screen -->
   <div id="screen1" class="screen active">
     <h1>HELLO NIGGA 🥰</h1>
     <button id="nextBtn">Next</button>
   </div>
 
-  <!-- Second Screen -->
   <div id="screen2" class="screen">
     <h2>Before you start, I've got something to show you...</h2>
     <p>It is very special. Are you ready?</p>
     <h1 id="prepCountdown"></h1>
   </div>
 
-  <!-- Image and Countdown -->
-  <img src="image.png" id="mainImage" class="fullscreen-image" alt="Special Image">
-  <div id="imageCountdown" class="countdown"></div>
-
-  <!-- Emoji after everything -->
-  <div id="emoji" class="emoji">🤭</div>
-
   <script>
     const nextBtn = document.getElementById('nextBtn');
     const screen1 = document.getElementById('screen1');
     const screen2 = document.getElementById('screen2');
     const prepCountdown = document.getElementById('prepCountdown');
-    const mainImage = document.getElementById('mainImage');
-    const imageCountdown = document.getElementById('imageCountdown');
-    const emoji = document.getElementById('emoji');
 
     nextBtn.addEventListener('click', () => {
       screen1.classList.remove('active');
@@ -131,42 +79,18 @@
     function startPrepCountdown() {
       let count = 3;
       prepCountdown.textContent = count;
-      const prepInterval = setInterval(() => {
+      const interval = setInterval(() => {
         count--;
-        prepCountdown.textContent = count >= 0 ? count : '';
-        if (count < 0) {
-          clearInterval(prepInterval);
-          showImage();
+        if (count >= 0) {
+          prepCountdown.textContent = count;
+        } else {
+          clearInterval(interval);
+          window.location.href = "https://arnavthete.github.io/image"; // Redirect here
         }
       }, 1000);
-    }
-
-    function showImage() {
-      screen2.classList.remove('active');
-      mainImage.style.opacity = 1;
-      imageCountdown.style.display = 'block';
-      startImageCountdown();
-    }
-
-    function startImageCountdown() {
-      let count = 3;
-      imageCountdown.textContent = count;
-      const imgInterval = setInterval(() => {
-        count--;
-        imageCountdown.textContent = count >= 0 ? count : '';
-        if (count < 0) {
-          clearInterval(imgInterval);
-          hideImageShowEmoji();
-        }
-      }, 1000);
-    }
-
-    function hideImageShowEmoji() {
-      mainImage.style.opacity = 0;
-      imageCountdown.style.display = 'none';
-      emoji.style.display = 'block';
     }
   </script>
 
 </body>
 </html>
+
