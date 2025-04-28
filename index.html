@@ -14,11 +14,11 @@
     html, body {
       height: 100%;
       background: #111;
-      color: #fff;
+      color: white;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       overflow: hidden;
     }
     .screen {
@@ -31,6 +31,10 @@
     .screen.active {
       opacity: 1;
       transform: scale(1);
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
     }
     button {
       margin-top: 30px;
@@ -46,8 +50,10 @@
     button:hover {
       background: #ff6b81;
     }
-    h1, h2, p {
-      margin-bottom: 20px;
+    #typingText {
+      font-size: 2rem;
+      text-align: center;
+      min-height: 80px;
     }
   </style>
 </head>
@@ -59,38 +65,61 @@
   </div>
 
   <div id="screen2" class="screen">
-    <h2>Before you start, I've got something to show you...</h2>
-    <p>It is very special. Are you ready?</p>
-    <h1 id="prepCountdown"></h1>
+    <h2 id="typingText"></h2>
   </div>
 
   <script>
     const nextBtn = document.getElementById('nextBtn');
     const screen1 = document.getElementById('screen1');
     const screen2 = document.getElementById('screen2');
-    const prepCountdown = document.getElementById('prepCountdown');
+    const typingText = document.getElementById('typingText');
+
+    const messages = [
+      "Before you start, I've got something to show you...",
+      "It is very special. Are you ready?"
+    ];
+
+    let messageIndex = 0;
 
     nextBtn.addEventListener('click', () => {
       screen1.classList.remove('active');
       screen2.classList.add('active');
-      startPrepCountdown();
+      typeMessage();
     });
 
-    function startPrepCountdown() {
-      let count = 3;
-      prepCountdown.textContent = count;
-      const interval = setInterval(() => {
-        count--;
-        if (count >= 0) {
-          prepCountdown.textContent = count;
-        } else {
-          clearInterval(interval);
-          window.location.href = "https://arnavthete.github.io/breakingbad/image.html"; // Redirect here
+    function typeMessage() {
+      let text = messages[messageIndex];
+      let i = 0;
+      typingText.textContent = "";
+
+      const typingInterval = setInterval(() => {
+        typingText.textContent += text[i];
+        i++;
+        if (i >= text.length) {
+          clearInterval(typingInterval);
+          setTimeout(() => {
+            if (messageIndex < messages.length - 1) {
+              fadeOutAndNext();
+            } else {
+              // Final countdown before redirect
+              setTimeout(() => {
+                window.location.href = "https://arnavthete.github.io/breakingbad/image.html";
+              }, 1000);
+            }
+          }, 1500); // wait before next message
         }
-      }, 1000);
+      }, 50);
+    }
+
+    function fadeOutAndNext() {
+      typingText.style.opacity = "0";
+      setTimeout(() => {
+        messageIndex++;
+        typingText.style.opacity = "1";
+        typeMessage();
+      }, 500); // short delay between messages
     }
   </script>
 
 </body>
 </html>
-
